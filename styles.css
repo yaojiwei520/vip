@@ -1,0 +1,390 @@
+/* ===== 全局重置 ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background: linear-gradient(135deg, rgb(214, 238, 250), rgb(180, 222, 250), rgb(240, 248, 255));
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--bg) no-repeat center/cover;
+  opacity: 1;
+}
+
+/* ===== 主容器（液态玻璃效果） ===== */
+.container {
+  position: relative;
+  z-index: 998;
+  width: 80vw;
+  max-width: 600px;
+  min-width: 300px;
+  margin: 30px auto;
+  padding: 20px 25px;
+  text-align: center;
+  border-radius: 20px;
+  border: 0px solid rgba(255,255,255,0.25);
+
+  /* 液态玻璃效果 */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px) saturate(180%) brightness(1.1) contrast(1.05);
+  -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.1) contrast(1.05);
+
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  color: #333;
+  flex-shrink: 0;
+}
+
+/* ===== 表单区域 ===== */
+.form-section {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* ===== 输入组件 ===== */
+.input-group {
+  width: 100%;
+  position: relative;
+}
+
+input[type="url"],
+select,
+.custom-select .select-selected {
+  width: 100%;
+  padding: 16px 24px;
+  border: 0px solid rgba(255,255,255,0.25);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(8px) saturate(180%) brightness(1.05);
+  -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.05);
+  font-size: 16px;
+  color: #333;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none;
+}
+
+input[type="url"]:focus,
+select:focus,
+.custom-select .select-selected:focus {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.45);
+}
+
+
+/* ===== 自定义下拉菜单 ===== */
+.custom-select {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+  z-index: 10;
+}
+
+.select-selected {
+  padding: 16px 24px;
+  border-radius: 12px;
+  color: #333;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px) saturate(180%) brightness(1.05);
+  -webkit-backdrop-filter: blur(15px) saturate(180%) brightness(1.05);
+  transition: background 0.25s ease;
+  position: relative;
+}
+
+.select-selected:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.select-selected::after {
+  content: "▼";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #6e8efb;
+  pointer-events: none;
+}
+
+.select-items {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  background: rgba(17,30,44, 1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border: 0px solid rgba(255,255,255,0.08);
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  overflow: hidden;
+}
+
+.select-items.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.select-items div {
+  display: block;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #333;
+  white-space: nowrap;
+}
+
+.select-items div:hover {
+  background: rgba(242, 230, 215,0.05);
+}
+
+.select-items div:first-child {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.select-items div:last-child {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* ===== 按钮 ===== */
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  font-size: 18px;
+  border-radius: 12px;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  will-change: transform, opacity;
+}
+
+button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+  background: rgba(255,255,255,0.05);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* ===== 错误提示 ===== */
+.error-msg {
+  color: #ff4444;
+  font-size: 14px;
+  text-align: center;
+  margin: 10px 0;
+  padding: 8px 15px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(8px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid #ff4444;
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.error-msg.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.error-msg.hide {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* ===== 标题 & 副标题 ===== */
+h2 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 24px;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  color: #333;
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px 15px;
+}
+
+.support-text {
+  font-weight: 500;
+  color: #6e8efb;
+}
+
+.platforms {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 5px 15px;
+  justify-content: center;
+}
+
+.platforms span {
+  position: relative;
+  padding-right: 15px;
+}
+
+.platforms span:not(:last-child)::after {
+  content: "•";
+  position: absolute;
+  right: -3px;
+  color: #999;
+  font-weight: bold;
+}
+
+/* ===== 底部样式 & 图标 ===== */
+.footer {
+    position: relative; /* 或 fixed/bottom:0 */
+    z-index: 998;
+    width: 100%;
+    padding: 25px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.footer-right {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.icon-wrapper {
+  display: inline-block;
+}
+
+.icon-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px) saturate(180%) brightness(1.05);
+  -webkit-backdrop-filter: blur(18px) saturate(180%) brightness(1.05);
+  padding: 6px;
+  display: block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, opacity;
+  position: relative;
+  z-index: 555;
+}
+
+.icon-wrapper:first-child .icon-img:hover {
+  transform: scale(1.1) rotate(-10deg);
+}
+.icon-wrapper:last-child .icon-img:hover {
+  transform: scale(1.1) rotate(10deg);
+}
+
+.copyright {
+  font-size: 15px;
+  color: #333;
+  margin-top: 5px;
+  background: rgba(255,255,255,0.05);
+  padding: 4px 10px;
+  border-radius: 10px;
+  backdrop-filter: blur(12px) saturate(180%) brightness(1.05);
+  -webkit-backdrop-filter: blur(18px) saturate(180%) brightness(1.05);
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== 爱心动画 ===== */
+@keyframes float-up {
+  0% {transform:translateY(0) scale(1);opacity:1;}
+  100%{transform:translateY(-30px) scale(1.5);opacity:0;}
+}
+
+.heart {
+  position: absolute;
+  font-size: 18px;
+  pointer-events: none;
+  animation: float-up 1s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width:480px){
+  .container {padding:20px 15px;}
+  input[type="url"] {padding:14px 16px; font-size:15px;}
+  button {padding:14px 20px; font-size:16px;}
+  .icon-img {width:38px; height:38px;}
+}
+
+/* ===== 全局文字颜色 ===== */
+:root { --dynamic-text-color: #333; }
+
+h1, h2, h3, p, a, span, div, .subtitle,
+.lang-btn, .lang-dropdown a,
+.engine-dropdown div, .copyright,
+input, input::placeholder, button,
+.custom-select {
+    color: var(--dynamic-text-color) !important;
+}
+/* ------------------ 调整全局用户选择，仅禁止非交互元素 ------------------ */
+body *:not(input):not(textarea):not(button) {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+}
+/* ------------------ 全局禁止选中 ------------------ */
+body, body * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+}
+input, textarea {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+}

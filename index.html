@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>林澈.LYC 视频解析</title>
+    <link rel="icon" href="icons/logo.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<!-- 这里通过 style="--bg:  指定背景图片 -->
+<body style="--bg: url('image/线条.png');">
+<body>
+    <div class="container">
+        <h2>🎬 林澈.LYC 视频解析</h2>
+        <p class="subtitle">请选择线路并输入视频地址</p>
+        <p class="subtitle">支持:爱奇艺•腾讯视频•优酷•乐视•芒果TV•哔哩哔哩</p>
+
+        <div class="form-section">
+            <div class="input-group">
+  <div class="custom-select">
+    <div class="select-selected">选择解析器</div>
+    <div class="select-items">
+      <div data-value="1">PlayerJy解析(支持选集)</div>
+      <div data-value="2">夜幕解析</div>
+      <div data-value="3">七哥解析(异常)</div>
+      <div data-value="4">大米云解析</div>
+      <div data-value="5">闲鱼云解析</div>
+      <div data-value="6">七七云解析</div>
+      <div data-value="7">HLS解析</div>
+    </div>
+  </div>
+</div>
+
+<div class="input-group">
+    <input 
+        type="url" 
+        id="videoUrl"
+        inputmode="url"
+        placeholder="请输入视频地址 如：https://v.qq.com/x/cover/..."
+        autocapitalize="none"
+        autocomplete="url"
+    >
+</div>
+
+        </div>
+
+        <button onclick="handleRedirect()">🚀 立即解析</button>
+    </div>
+
+  <!-- 底部 -->
+  <footer>
+  <div class="footer-right">
+    <div class="icon-wrapper">
+      <a href="https://lync.iqo3333.cn" target="_blank">
+        <img src="icons/logo.png" class="icon-img" alt="Logo">
+      </a>
+    </div>
+    <div class="icon-wrapper">
+      <a href="https://github.com/iqo3333/VIP_Video-Parsing" target="_blank">
+        <img src="icons/github.png" class="icon-img" alt="GitHub">
+      </a>
+    </div>
+  </div>
+<p class="copyright"><b>© 林澈.LYC 2025. All Rights Reserved</b></p>
+</footer>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

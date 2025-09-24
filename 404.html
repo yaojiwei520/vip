@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>页面不存在(404)</title>
+  <link rel="icon" href="favicon.png" type="image/png" />
+  <style>
+    /* ================== 全局样式 ================== */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      cursor: default;
+      color: #333;
+      background: linear-gradient(135deg, #1f1f1f, #3c4a57, #7a8a99);
+      background-size: cover;
+      background-attachment: fixed;
+      position: relative;
+      z-index: 0;
+    }
+
+    /* 背景图片 */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: var(--bg) no-repeat center/cover;
+      opacity: 1;
+    }
+
+    /* ================== 液态玻璃容器 ================== */
+    .message-box {
+      position: static;
+      z-index: 1;
+      width: 80vw;
+      max-width: 500px;
+      min-width: 280px;
+      margin: 40px;
+      padding: 25px;
+      text-align: center;
+      border-radius: 20px;
+      border: 0px solid rgba(255,255,255,0.25);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px) saturate(180%) brightness(1.1) contrast(1.05);
+      -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.1) contrast(1.05);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      color: #333;
+      flex-shrink: 0;
+      animation: fadeInUp 1.5s ease-out;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+    }
+
+    @media (max-width: 768px) {
+      .message-box {
+        margin: 20px;
+        padding: 20px;
+      }
+    }
+
+    .message-box h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .message-box p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #444;
+      margin: 10px 0;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 打字机效果 */
+    .typewriter-text::after {
+      content: '|';
+      animation: blink 1s infinite;
+      margin-left: 4px;
+    }
+
+    .no-caret::after {
+      content: none !important;
+      animation: none !important;
+    }
+
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+    /* ================== 爱心动画 ================== */
+    .heart {
+      position: fixed;   /* 固定视口，跟随鼠标 */
+      font-size: 18px;
+      pointer-events: none;
+      animation: float-up 1s ease-out forwards;
+      will-change: transform, opacity;
+    }
+
+    @keyframes float-up {
+      0% { transform: translateY(0) scale(1); opacity:1; }
+      100% { transform: translateY(-30px) scale(1.5); opacity:0; }
+    }
+
+    /* ================== 文字动态颜色 ================== */
+    :root { --dynamic-text-color: #333; }
+
+    h1, h2, h3, p, a, .subtitle, 
+    .lang-btn, .lang-dropdown a, 
+    .engine-dropdown div, .copyright, 
+    input, input::placeholder, button {
+      color: var(--dynamic-text-color) !important;
+    }
+
+    /* 禁止用户选择文本 */
+    body, body * { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; -webkit-touch-callout: none; }
+    img, a, button { -webkit-user-drag: none; user-drag: none; }
+    input[type="text"], textarea { user-select: text; -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; }
+  </style>
+</head>
+<body style="--bg: url('image/线条.png');">
+  <div class="message-box">
+    <h1>❌ 页面不存在(404)</h1>
+    <p class="typewriter-text" id="line1"></p>
+    <p class="typewriter-text" id="line2"></p>
+    <p class="typewriter-text right-align" id="line3"></p>
+  </div>
+
+  <script>
+    // ================== 打字机文字 ==================
+    const lines = [
+      "抱歉 😢 您要找的页面不在这里，也许它已经搬家了。",
+      "请返回首页或检查输入的地址。",
+      "——林澈.LYC"
+    ];
+
+    function typeWriter(elementId, text, delay = 40, callback) {
+      const el = document.getElementById(elementId);
+      let i = 0;
+      function typing() {
+        if (i <= text.length) {
+          el.textContent = text.slice(0, i++);
+          setTimeout(typing, delay);
+        } else { if (callback) callback(); }
+      }
+      typing();
+    }
+
+    setTimeout(() => {
+      typeWriter("line1", lines[0], 40, () => {
+        document.getElementById("line1").classList.add("no-caret");
+        typeWriter("line2", lines[1], 40, () => {
+          document.getElementById("line2").classList.add("no-caret");
+          typeWriter("line3", lines[2], 40, () => {
+            document.getElementById("line3").classList.add("no-caret");
+          });
+        });
+      });
+    }, 600);
+
+// ------------------ 爱心点击效果 ------------------
+const colors = ['#e25555', '#ff69b4', '#ff9933', '#66ccff', '#9933ff', '#ff3399'];
+
+// 点击时生成一个爱心
+document.addEventListener("click", function(e) {
+    createHeart(e.clientX, e.clientY);
+});
+
+function createHeart(x, y) {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = "❤";
+  heart.style.left = x + "px";
+  heart.style.top = y + "px";
+  heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 1000);
+}
+
+
+    // ================== 禁止手势缩放 ==================
+    document.addEventListener('touchstart', e => { if(e.touches.length>1) e.preventDefault(); }, {passive:false});
+    document.addEventListener('gesturestart', e => { e.preventDefault(); });
+    window.addEventListener('wheel', e => { if(e.ctrlKey) e.preventDefault(); }, {passive:false});
+    window.addEventListener('keydown', e => { if((e.ctrlKey||e.metaKey) && (e.key==='+'||e.key==='-'||e.key==='=')) e.preventDefault(); });
+
+    // ================== 动态文字颜色 ==================
+    (function(){
+      function getAverageColorFromImage(imgUrl, callback) {
+        const img = new Image();
+        img.crossOrigin = "Anonymous"; 
+        img.src = imgUrl;
+        img.onload = function () {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          canvas.width = 1;
+          canvas.height = 1;
+          ctx.drawImage(img,0,0,1,1);
+          const data = ctx.getImageData(0,0,1,1).data;
+          callback(data[0], data[1], data[2]);
+        };
+        img.onerror = function() { callback(null); };
+      }
+
+      function updateTextColor(r,g,b){
+        if(r===null){
+          const bg = getComputedStyle(document.body).backgroundColor;
+          const m = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+          if(!m) return;
+          r=parseInt(m[1]); g=parseInt(m[2]); b=parseInt(m[3]);
+        }
+        let brightness = (r*299 + g*587 + b*114)/1000;
+        let textGray = Math.round(255-brightness);
+        textGray = Math.max(40,Math.min(220,textGray));
+        document.documentElement.style.setProperty("--dynamic-text-color", `rgb(${textGray},${textGray},${textGray})`);
+      }
+
+      function applyDynamicTextColor(){
+        const bgStyle = getComputedStyle(document.body).getPropertyValue("--bg");
+        if(bgStyle && bgStyle.includes("url(")){
+          const url = bgStyle.match(/url\(['"]?(.*?)['"]?\)/)[1];
+          getAverageColorFromImage(url,(r,g,b)=>updateTextColor(r,g,b));
+        } else { updateTextColor(null); }
+      }
+
+      window.addEventListener("load", applyDynamicTextColor);
+      document.addEventListener("DOMContentLoaded", applyDynamicTextColor);
+      const mo = new MutationObserver(mutations=>{
+        for(let m of mutations){
+          if(m.attributeName==="style"){ applyDynamicTextColor(); break; }
+        }
+      });
+      mo.observe(document.body,{attributes:true});
+    })();
+  </script>
+</body>
+</html>
